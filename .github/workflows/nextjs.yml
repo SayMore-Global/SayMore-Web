@@ -24,27 +24,12 @@ jobs:
       - name: Debug file structure
         run: ls -al ${{ github.workspace }}/saymore
 
-      - name: Detect package manager
-        id: detect-package-manager
-        run: |
-          if [ -f "${{ github.workspace }}/saymore/yarn.lock" ]; then
-            echo "manager=yarn" >> $GITHUB_OUTPUT
-            echo "command=install" >> $GITHUB_OUTPUT
-            echo "runner=yarn" >> $GITHUB_OUTPUT
-          elif [ -f "${{ github.workspace }}/saymore/package.json" ]; then
-            echo "manager=npm" >> $GITHUB_OUTPUT
-            echo "command=ci" >> $GITHUB_OUTPUT
-            echo "runner=npx --no-install" >> $GITHUB_OUTPUT
-          else
-            echo "Unable to determine package manager"
-            exit 1
-          fi
-
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: ${{ steps.detect-package-manager.outputs.manager }}
+          cache: npm
+          cache-dependency-path: saymore/package-lock.json
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -54,19 +39,18 @@ jobs:
       - name: Restore cache
         uses: actions/cache@v4
         with:
-          path: |
-            saymore/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('saymore/package-lock.json', 'saymore/yarn.lock') }}-${{ hashFiles('saymore/**/*.[jt]s', 'saymore/**/*.[jt]sx') }}
+          path: saymore/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('saymore/package-lock.json') }}-${{ hashFiles('saymore/**/*.[jt]s', 'saymore/**/*.[jt]sx') }}
           restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('saymore/package-lock.json', 'saymore/yarn.lock') }}-
+            ${{ runner.os }}-nextjs-${{ hashFiles('saymore/package-lock.json') }}-
 
       - name: Install dependencies
         working-directory: saymore
-        run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+        run: npm ci
 
       - name: Build with Next.js
         working-directory: saymore
-        run: ${{ steps.detect-package-manager.outputs.runner }} next build
+        run: npx next build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

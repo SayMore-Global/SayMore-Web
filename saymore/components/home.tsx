@@ -10,13 +10,22 @@ export default function HomeSection() {
 
         <div className="absolute inset-0 overflow-hidden">
           {/* Background Image */}
-          <Image
+          {/*<Image*/}
+          {/*    src="/Banner.jpg"*/}
+          {/*    alt="Background"*/}
+          {/*    width={5500}*/}
+          {/*    height={3093}*/}
+          {/*    className="w-full h-full object-cover opacity-100"*/}
+          {/*/>*/}
+
+          <img
               src="/Banner.jpg"
               alt="Background"
-              width={5500}
-              height={3093}
+              width="5500"
+              height="3093"
               className="w-full h-full object-cover opacity-100"
           />
+
 
           {/* Colored Blur Circles */}
           <div className="absolute top-20 left-20 w-20 h-20 bg-purple-200 rounded-full blur-2xl opacity-20"></div>

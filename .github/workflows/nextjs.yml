@@ -34,13 +34,12 @@ jobs:
 
       - name: Build with Next.js
         working-directory: saymore
-        run: npx next build && npx next export
+        run: npm run build  # `next build` will handle static export automatically
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: saymore/out
-          retention-days: 1
+          path: saymore/out  # Deploy the exported static files
 
   deploy:
     environment:

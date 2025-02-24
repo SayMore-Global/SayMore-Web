@@ -66,16 +66,9 @@ export default function TeamSection() {
                             className="overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-lg"
                         >
                             <Card>
-                                {/*<Image*/}
-                                {/*    src={member.image}*/}
-                                {/*    alt={member.name}*/}
-                                {/*    width={member.width}*/}
-                                {/*    height={member.height}*/}
-                                {/*    className="w-full h-64 object-cover"*/}
-                                {/*/>*/}
-
-                                <img
-                                    src={member.image}
+                                <Image
+                                    // src={member.image}
+                                    src={`/SayMore-Web${member.image}`}
                                     alt={member.name}
                                     width={member.width}
                                     height={member.height}

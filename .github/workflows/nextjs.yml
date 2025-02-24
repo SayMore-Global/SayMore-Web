@@ -21,7 +21,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
@@ -32,14 +32,17 @@ jobs:
         working-directory: saymore
         run: npm ci
 
-      - name: Build with Next.js
+      - name: Build the Next.js static site
         working-directory: saymore
-        run: npm run build  # `next build` will handle static export automatically
+        run: npm run build  # Static export using output: 'export'
+
+      - name: Verify output folder
+        run: ls -R saymore/out  # Debugging step to confirm static files are generated
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: saymore/out  # Deploy the exported static files
+          path: saymore/out  # Deploying the correct folder
 
   deploy:
     environment:
